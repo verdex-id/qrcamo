@@ -1,13 +1,12 @@
 import { Hono } from "hono";
-import { qrHandler } from "./handler/qr_handler";
+import { patternHandler } from "./handler/pattern_handler";
+import { serveStatic } from "hono/bun";
 
 const app = new Hono();
 
-app.get("/", (c) => {
-  return c.text("QRCamo - QR Code Generator API");
-});
+// Mount static files
+app.use("/asset/*", serveStatic({ root: "./" }));
 
-// Mount QR handler
-app.route("/qr", qrHandler);
+app.route("/pattern", patternHandler);
 
 export default app;
