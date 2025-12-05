@@ -16,6 +16,8 @@ bun run dev
 
 Open http://localhost:3000/pattern
 
+[!example](./example/patterns.png)
+
 ## Scan 3 Pattern using our Unity AR apps
 
 Download here: ...
