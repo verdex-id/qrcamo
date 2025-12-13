@@ -1,4 +1,5 @@
 import { Glob } from "bun";
+import { basename } from "path";
 import {
   Pattern,
   Presence,
@@ -13,7 +14,8 @@ export class PatternService {
     const patternImages = new Glob("./asset/pattern/*.png");
     let availablePatterns: string[] = [];
     for await (const patternImage of patternImages.scan(".")) {
-      const filename = patternImage.split("/").pop();
+      // Use path.basename to handle both Windows and Unix paths correctly
+      const filename = basename(patternImage);
       if (!filename) {
         continue;
       }
@@ -43,16 +45,16 @@ export class PatternService {
     };
   }
 
-  static async scan(code: string, npm: string, name: string): Promise<number> {
+  static async scan(codes: string, npm: string, name: string): Promise<number> {
     const currentPattern = queryGetCurrentPattern.get();
     if (!currentPattern) {
       throw new Error("Pattern not found");
     }
-    if (currentPattern.codes !== code) {
+    if (currentPattern.codes !== codes) {
       throw new Error("Code not match with current pattern");
     }
     const timestamp = Date.now();
-    const presence = queryAddPresence.run(code, timestamp, npm, name);
+    const presence = queryAddPresence.run(codes, timestamp, npm, name);
     if (!presence.lastInsertRowid) {
       throw new Error("Presence not found");
     }

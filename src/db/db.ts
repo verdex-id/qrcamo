@@ -4,7 +4,6 @@ export const db = new Database("qrcamo.db");
 
 export const createTables = db.exec(`
   CREATE TABLE IF NOT EXISTS patterns (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
     timestamp INTEGER PRIMARY KEY,
     codes TEXT
   );
